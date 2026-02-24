@@ -40,6 +40,24 @@ La principal diferencia es la siguiente:
 # Escriba la secuencia exacta de tokens producidos para la entrada 123**45+@.
 La secuencia para esa entrada sería la siguiente:
 
+| **Entrada** | **Regla que coincide** | **Token devuelto** |
+|-------------|--------------------|----------------|
+|    123      |       [0-9]+       |     NUMBER     |
+|    **       |        "**"        |       OP       |
+|    45       |       [0-9]+       |     NUMBER     |
+|    +        |       [-+*/]       |       OP       |
+|    @        |         .          |     INVALID    |
+|             |      <<EOF>>       |       EOF      |
+
+1. El texto 123 coincide con la regla [0-9]+ y devuelve el token NUMBER.
+
+2. El texto ** coincide con la regla "**" y devuelve el token OP.
+
+3. El texto 45 coincide con la regla [0-9]+ y devuelve el token NUMBER.
+
+4. El texto + coincide con la regla [-+*/] y devuelve el token OP.
+
+5. El carácter @ no coincide con ninguna de las reglas anteriores, por lo que cae en la regla . y devuelve el token INVALID.
 
 
 
