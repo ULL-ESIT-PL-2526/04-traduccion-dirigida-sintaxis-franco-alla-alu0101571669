@@ -60,12 +60,14 @@ La secuencia para esa entrada sería la siguiente:
 5. El carácter @ no coincide con ninguna de las reglas anteriores, por lo que cae en la regla . y devuelve el token INVALID.
 
 
-# Indique por qué ** debe aparecer antes que [-+*/].
+# Indique por qué `**` debe aparecer antes que `[-+*/]`.
 
-Porque el analizador tiene un orden de prioridad, es decir, si este llag a encontrar primero la regla [-+*/] y se llega a tyener un `**`lo que hace es leer sólo el primer asterísco y devuelve un operdaor inmediatamente, luego el otro asterísco cuando lo lea devolverá otro operador. Al poner la regla `**` antes, el lexer primero comprobará si se trata de un doble asterísco ya sabrá que se trata de una operación de potencia en lugar de multiplicación .
+Porque el analizador tiene un orden de prioridad, es decir, si este llag a encontrar primero la regla [-+*/] y se llega a tyener un `**` lo que hace es leer sólo el primer asterísco y devuelve un operdaor inmediatamente, luego el otro asterísco cuando lo lea devolverá otro operador. Al poner la regla `**` antes, el lexer primero comprobará si se trata de un doble asterísco ya sabrá que se trata de una operación de potencia en lugar de multiplicación .
 
-# Explique cuándo se devuelve EOF.
+# Explique cuándo se devuelve `EOF`.
 
 EOF se devuelve cuando el analizador léxico ya ha consumido toda la sentencia, es decir que ha llegado al final y no quedan más caracteres que pueda consumir.
 
-3.5. Explique por qué existe la regla . que devuelve INVALID.
+# Explique por qué existe la regla `.` que devuelve INVALID.
+
+La regla `.` lo que quiere decir es que si el analizador lee otro caracter que no venga incluido en las otras reglas definidas anteriormente, este devuelve el token `INVALID`. Esto lo que hace es evitar que el programa se bloquee, lance una excepción abrupta o entre en un bucle infinito, permitiendo al compilador o intérprete reportar un error léxico.
