@@ -60,8 +60,11 @@ La secuencia para esa entrada sería la siguiente:
 5. El carácter @ no coincide con ninguna de las reglas anteriores, por lo que cae en la regla . y devuelve el token INVALID.
 
 
+# Indique por qué ** debe aparecer antes que [-+*/].
 
+Porque el analizador tiene un orden de prioridad, es decir, si este llag a encontrar primero la regla [-+*/] y se llega a tyener un `**`lo que hace es leer sólo el primer asterísco y devuelve un operdaor inmediatamente, luego el otro asterísco cuando lo lea devolverá otro operador. Al poner la regla `**` antes, el lexer primero comprobará si se trata de un doble asterísco ya sabrá que se trata de una operación de potencia en lugar de multiplicación .
 
-3.3. Indique por qué ** debe aparecer antes que [-+*/].
 3.4. Explique cuándo se devuelve EOF.
+
+
 3.5. Explique por qué existe la regla . que devuelve INVALID.
