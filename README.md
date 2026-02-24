@@ -29,3 +29,21 @@ Type ".help" for more information.
 > p.parse("2*3")
 6
 ```
+
+# Describa la diferencia entre /* skip whitespace */ y devolver un token.
+
+La principal diferencia es la siguiente:
+* **Omitir espacios en blanco**: cuando el analizador léxico encuentra espacios, tabulaciones, etc. Simplemente avanza su puntero para continuar leyendo la sentencia escrita sin devolver nada.
+
+* Devolver un token: cuando el analizador encuentyra en este caso un número o un operador, este devuelve el *token* con la información reconocida y se la entrega al parser.
+
+# Escriba la secuencia exacta de tokens producidos para la entrada 123**45+@.
+La secuencia para esa entrada sería la siguiente:
+
+
+
+
+
+3.3. Indique por qué ** debe aparecer antes que [-+*/].
+3.4. Explique cuándo se devuelve EOF.
+3.5. Explique por qué existe la regla . que devuelve INVALID.
