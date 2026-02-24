@@ -64,7 +64,8 @@ La secuencia para esa entrada sería la siguiente:
 
 Porque el analizador tiene un orden de prioridad, es decir, si este llag a encontrar primero la regla [-+*/] y se llega a tyener un `**`lo que hace es leer sólo el primer asterísco y devuelve un operdaor inmediatamente, luego el otro asterísco cuando lo lea devolverá otro operador. Al poner la regla `**` antes, el lexer primero comprobará si se trata de un doble asterísco ya sabrá que se trata de una operación de potencia en lugar de multiplicación .
 
-3.4. Explique cuándo se devuelve EOF.
+# Explique cuándo se devuelve EOF.
 
+EOF se devuelve cuando el analizador léxico ya ha consumido toda la sentencia, es decir que ha llegado al final y no quedan más caracteres que pueda consumir.
 
 3.5. Explique por qué existe la regla . que devuelve INVALID.
