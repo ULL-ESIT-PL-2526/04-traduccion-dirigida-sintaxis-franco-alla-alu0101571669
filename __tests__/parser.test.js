@@ -133,6 +133,7 @@ describe('Parser Tests', () => {
       expect(parse("3 * 4 // multiplicación simple")).toBe(12);
       expect(parse("5 // solo un número")).toBe(5);
       expect(parse("1 + 2 // comentario\n+ 3")).toBe(6); // comentario en medio
+      expect(parse("1 + 2 // comentario\r\n+ 3")).toBe(6); // comentario con retorno de carro
     });
 
     test('debería aceptar números en notación científica', () => {
