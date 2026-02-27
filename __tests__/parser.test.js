@@ -125,7 +125,7 @@ describe('Parser Tests', () => {
       expect(parse("10 - 4 - 3")).toBe(3);
       expect(parse("7 - 5 - 1")).toBe(1);
     });
-    });
+  });
 
   describe('Comentarios y notación científica', () => {
     test('debería ignorar comentarios de línea //', () => {
