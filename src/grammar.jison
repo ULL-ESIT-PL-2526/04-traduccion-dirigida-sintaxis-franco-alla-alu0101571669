@@ -7,6 +7,8 @@
 "**"                                    { return 'OPOW';         }
 [*/]                                    { return 'OPMU';         }
 [-+]                                    { return 'OPAD';         }
+"("                                     { return 'LPAREN';       }
+")"                                     { return 'RPAREN';       }
 <<EOF>>                                 { return 'EOF';          }
 .                                       { return 'INVALID';      }
 /lex
@@ -14,9 +16,11 @@
 /* Parser */
 %start expressions
 %token NUMBER
-%token OPOW 
-%token OPMU 
-%token OPAD
+%token LPAREN 
+%token RPAREN
+%left OPAD
+%left OPMU 
+%right OPOW 
 %%
 
 expressions
@@ -25,12 +29,12 @@ expressions
     ;
 
 expression
-    : expression OPOW term
-        { $$ = operate($OPOW, $expression, $term); }
-    | expression OPMU term
-        { $$ = operate($OPMU, $expression, $term); }
-    | expression OPAD term
-        { $$ = operate($OPAD, $expression, $term); }
+    : expression OPAD expression
+        { $$ = operate($2, $1, $3); }
+    | expression OPMU expression
+        { $$ = operate($2, $1, $3); }
+    | expression OPOW expression
+        { $$ = operate($2, $1, $3); }
     | term
         { $$ = $term; }
     ;
@@ -38,6 +42,9 @@ expression
 term
     : NUMBER
         { $$ = Number(yytext); }
+    |
+    LPAREN expression RPAREN
+        { $$ = $2; }
     ;
 %%
 
