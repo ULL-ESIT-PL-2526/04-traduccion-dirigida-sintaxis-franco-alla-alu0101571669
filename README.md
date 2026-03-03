@@ -124,3 +124,60 @@ L → 7 - 4 / 2
 # Escriba el árbol de análisis sintáctico (parse tree) para cada una de las frases.
 
 ### 4.0-2.0*3.0
+
+```text
+          L
+        /   \
+       /     eof
+      E
+     / \
+    E   T
+   / \   \
+  E   OP  number (3.0)
+ / \   |
+E   OP -
+|   |
+T   *
+|   \
+number number (2.0)
+(4.0)
+```
+
+### 2\**3\**2
+
+```text
+          L
+        /   \
+       /     eof
+      E
+     / \
+    E   T
+   / \   \
+  E   OP  number (2)
+ / \   |
+E   OP **
+|   |
+T   **
+|   \
+number number (3)
+(2)
+```
+
+### 7-4/2
+```text
+          L
+        /   \
+       /     eof
+      E
+     / \
+    E   T
+   / \   \
+  E   OP  number (2)
+ / \   |
+E   OP /
+|   |
+T   -
+|   \
+number number (4)
+(7)
+```
