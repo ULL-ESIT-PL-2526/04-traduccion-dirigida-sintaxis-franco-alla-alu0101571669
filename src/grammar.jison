@@ -14,7 +14,7 @@
 /lex
 
 /* Parser */
-%start expressions
+%start L
 %token NUMBER
 %token LPAREN 
 %token RPAREN
@@ -23,27 +23,37 @@
 %right OPOW 
 %%
 
-expressions
-    : expression EOF
-        { return $expression; }
+L
+    : E EOF
+        { return $E; }
     ;
 
-expression
-    : expression OPAD expression
+E
+    : E OPAD T
         { $$ = operate($2, $1, $3); }
-    | expression OPMU expression
-        { $$ = operate($2, $1, $3); }
-    | expression OPOW expression
-        { $$ = operate($2, $1, $3); }
-    | term
-        { $$ = $term; }
+    | T
+        { $$ = $1;}
     ;
 
-term
+T
+    : T OPMU R
+        { $$ = operate($2, $1, $3); }
+    | R
+        { $$ = $1; }
+    ;
+
+R
+    : F OPOW R
+        { $$ = operate($2, $1, $3); }
+    | F
+        { $$ = $1; }
+    ;
+
+F
     : NUMBER
         { $$ = Number(yytext); }
     |
-    LPAREN expression RPAREN
+    LPAREN E RPAREN
         { $$ = $2; }
     ;
 %%
