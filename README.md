@@ -71,3 +71,169 @@ EOF se devuelve cuando el analizador léxico ya ha consumido toda la sentencia, 
 # Explique por qué existe la regla `.` que devuelve INVALID.
 
 La regla `.` lo que quiere decir es que si el analizador lee otro caracter que no venga incluido en las otras reglas definidas anteriormente, este devuelve el token `INVALID`. Esto lo que hace es evitar que el programa se bloquee, lance una excepción abrupta o entre en un bucle infinito, permitiendo al compilador o intérprete reportar un error léxico.
+
+# Escriba la derivación para cada una de las frases.
+
+| PRODUCCIÓN | REGLA SEMÁNTICA |
+| :--- | :--- |
+| $L \rightarrow E \text{ eof}$ | $L.value = E.value$ |
+| $E \rightarrow E_1 \text{ op } T$ | $E.value = \text{operate}(\text{op}.lexvalue, E_1.value, T.value)$ |
+| $E \rightarrow T$ | $E.value = T.value$ |
+| $T \rightarrow \text{number}$ | $T.value = \text{convert}(\text{number}.lexvalue)$ |
+
+### 4.0-2.0*3.0
+
+```text
+L → E eof
+L → E op T eof
+L → E op number eof [op = *, number = 3.0]
+L → E * 3.0 eof
+L → E op T * 3.0 eof
+L → E op number * 3.0 eof [op = *, number = 2.0]
+L → T - 2.0 * 3.0
+L → number - 2.0 * 3.0 eof [number = 4.0]
+L → 4.0 - 2.0 * 3.0
+```
+
+###  2\**3\**2
+```text
+L → E eof
+L → E op T eof
+L → E op number eof [op = **, number = 2]
+L → E ** 2 eof
+L → E op T ** 2 eof
+L → E op number ** 2 eof [op = **, number = 3]
+L → T ** 3 ** 2
+L → number ** 3 ** 2 eof [number = 2]
+L → 2 ** 3 ** 2
+```
+
+### 7-4/2
+```text
+L → E eof
+L → E op T eof
+L → E op number eof [op = /, number = 2]
+L → E / 2 eof
+L → E op T / 2 eof
+L → E op number ** 2 eof [op = -, number = 4]
+L → T - 4 / 2
+L → number - 4 / 2 eof [number = 7]
+L → 7 - 4 / 2
+```
+
+# Escriba el árbol de análisis sintáctico (parse tree) para cada una de las frases.
+
+### 4.0-2.0*3.0
+
+```text
+          L
+        /   \
+       /     eof
+      E
+     / \
+    E   T
+   / \   \
+  E   OP  number (3.0)
+ / \   |
+E   OP -
+|   |
+T   *
+|   \
+number number (2.0)
+(4.0)
+```
+
+### 2\**3\**2
+
+```text
+          L
+        /   \
+       /     eof
+      E
+     / \
+    E   T
+   / \   \
+  E   OP  number (2)
+ / \   |
+E   OP **
+|   |
+T   **
+|   \
+number number (3)
+(2)
+```
+
+### 7-4/2
+```text
+          L
+        /   \
+       /     eof
+      E
+     / \
+    E   T
+   / \   \
+  E   OP  number (2)
+ / \   |
+E   OP /
+|   |
+T   -
+|   \
+number number (4)
+(7)
+```
+
+# ¿En qué orden se evaluan las acciones semánticas para cada una de las frases?
+
+Las acciones semánticas se ejecutan en reducción (bottom-up).
+
+- Para 4.0 - 2.0 * 3.0:
+
+  1. convert(4.0)
+
+  2. convert(2.0)
+
+  3. operate('-', 4.0, 2.0)
+
+  4. convert(3.0)
+
+  5. operate('*', resultado_anterior, 3.0)
+
+Se evalúa:
+
+```text
+(4.0 - 2.0) * 3.0
+```
+
+- Para 2 \**3 \** 2
+
+  1. convert("2")
+
+  2. convert("3")
+
+  3. operate("**", 2, 3) → 8
+
+  4. convert("2")
+
+  5. operate("**", 8, 2) → 64
+
+Se evalúa:
+
+```text
+(2 ** 3) ** 2
+```
+
+- Para 7-4/2
+  1. convert("7")
+
+  2. convert("4")
+
+  3. operate("-", 7, 4) → 3
+
+  4. convert("2")
+
+  5. operate("/", 3, 2) → 1.5
+
+Se evalúa:
+```text
+((7 - 4) / 2)
+```
