@@ -18,9 +18,6 @@
 %token NUMBER
 %token LPAREN 
 %token RPAREN
-%left OPAD
-%left OPMU 
-%right OPOW 
 %%
 
 L
